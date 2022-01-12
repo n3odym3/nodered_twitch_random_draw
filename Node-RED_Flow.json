@@ -1,0 +1,500 @@
+[
+    {
+        "id": "86c73f975d6fb73e",
+        "type": "group",
+        "z": "5d52093f8ce15f03",
+        "name": "Draw",
+        "style": {
+            "stroke": "#000000",
+            "fill": "#b797cf",
+            "fill-opacity": "0.49",
+            "label": true,
+            "color": "#000000"
+        },
+        "nodes": [
+            "25388f806d789b4c",
+            "554b4be08c98a753",
+            "121ae8d106c8a365",
+            "22b570826b8064e1",
+            "901597eaa33b9096",
+            "4d067fba1bc55c10",
+            "11d8203a68282b9d",
+            "5d4077f2695a8a94",
+            "9821bbf4765d683b",
+            "bc23dc80b628c65a",
+            "ec86971c077c3606",
+            "95663aea1c22950d",
+            "d2b426d5eac35fb1",
+            "61e775389fec704d",
+            "043e8fbe14e0e5f0",
+            "df3a7c305c28427b",
+            "5ed281d34ab8d8c2",
+            "5af26c7ca081c4a2",
+            "871e2ec0b82397b9"
+        ],
+        "env": [],
+        "x": 34,
+        "y": 29,
+        "w": 1152,
+        "h": 292
+    },
+    {
+        "id": "25388f806d789b4c",
+        "type": "http request",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 590,
+        "y": 230,
+        "wires": [
+            [
+                "121ae8d106c8a365"
+            ]
+        ]
+    },
+    {
+        "id": "554b4be08c98a753",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Channel to test",
+        "func": "msg = {};\nmsg.url = \"https://tmi.twitch.tv/group/user/\" + flow.get(\"TirageBroadcasterUsername\") + \"/chatters\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 230,
+        "wires": [
+            [
+                "25388f806d789b4c"
+            ]
+        ]
+    },
+    {
+        "id": "121ae8d106c8a365",
+        "type": "change",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "TirageViewersList",
+                "pt": "flow",
+                "to": "payload.chatters.viewers",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 820,
+        "y": 230,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "22b570826b8064e1",
+        "type": "tmi-event-message",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "config": "",
+        "name": "Admin",
+        "channels_filter": "CHANNEL1,CHANNEL2,CHANNEL3",
+        "users_filter": "",
+        "action": false,
+        "chat": true,
+        "whisper": false,
+        "regular": false,
+        "mod": false,
+        "subscriber": false,
+        "broadcaster": true,
+        "message_regexp": "!",
+        "message_flags": "",
+        "x": 110,
+        "y": 190,
+        "wires": [
+            [
+                "4d067fba1bc55c10"
+            ]
+        ]
+    },
+    {
+        "id": "901597eaa33b9096",
+        "type": "tmi-event-message",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "config": "",
+        "name": "User",
+        "channels_filter": "CHANNEL1,CHANNEL2,CHANNEL3",
+        "users_filter": "",
+        "action": false,
+        "chat": true,
+        "whisper": false,
+        "regular": true,
+        "mod": true,
+        "subscriber": true,
+        "broadcaster": true,
+        "message_regexp": "!join",
+        "message_flags": "",
+        "x": 110,
+        "y": 90,
+        "wires": [
+            [
+                "bc23dc80b628c65a"
+            ]
+        ]
+    },
+    {
+        "id": "4d067fba1bc55c10",
+        "type": "switch",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "",
+        "property": "payload.message",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "!help",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "!reset",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "!start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "!stop",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "!draw",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "!megadraw",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 6,
+        "x": 230,
+        "y": 190,
+        "wires": [
+            [
+                "043e8fbe14e0e5f0"
+            ],
+            [
+                "5ed281d34ab8d8c2"
+            ],
+            [
+                "11d8203a68282b9d"
+            ],
+            [
+                "5d4077f2695a8a94"
+            ],
+            [
+                "554b4be08c98a753",
+                "ec86971c077c3606"
+            ],
+            [
+                "554b4be08c98a753",
+                "ec86971c077c3606"
+            ]
+        ]
+    },
+    {
+        "id": "11d8203a68282b9d",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Start Draw",
+        "func": "flow.set(\"TirageBroadcasterUsername\", msg.payload.userstate.username);\nflow.set(\"TirageState\", true);\nflow.set(\"TirageJoinDB\", []);\n\nmsg.payload.message = \"Début du tirage au sort\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 150,
+        "wires": [
+            [
+                "61e775389fec704d"
+            ]
+        ]
+    },
+    {
+        "id": "5d4077f2695a8a94",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Stop Draw",
+        "func": "flow.set(\"TirageState\", false);\nmsg.payload.message = \"Fin du tirage au sort\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 190,
+        "wires": [
+            [
+                "61e775389fec704d"
+            ]
+        ]
+    },
+    {
+        "id": "9821bbf4765d683b",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Draw",
+        "func": "if (msg.topic == \"retry\"){\n    let Retry = context.get(\"TirageRetry\")||0;\n    Retry ++;\n    if(Retry > 100){\n        return;\n    }\n    else{\n        context.set(\"TirageRetry\", Retry);\n    }\n}\nelse{\n    context.set(\"TirageRetry\", 0);\n}\n\nflow.set(\"TirageState\", false);\nconst TirageJoinDB = flow.get(\"TirageJoinDB\");\nmsg.payload = TirageJoinDB[randomNumber(0, TirageJoinDB.length -1)];\nreturn msg;\n\nfunction randomNumber(min, max) {\n    return Math.floor(Math.random() * (max - min + 1) + min);\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 270,
+        "wires": [
+            [
+                "95663aea1c22950d"
+            ]
+        ]
+    },
+    {
+        "id": "bc23dc80b628c65a",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Join",
+        "func": "let TirageJoinDB = flow.get(\"TirageJoinDB\")||[];\nconst username = msg.payload.userstate.username;\n\nif(flow.get(\"TirageState\")){\n    if(!TirageJoinDB.includes(username)){\n        TirageJoinDB.push(username);\n        flow.set(\"TirageJoinDB\", TirageJoinDB);\n        return msg;\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 90,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec86971c077c3606",
+        "type": "delay",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 355,
+        "y": 270,
+        "wires": [
+            [
+                "df3a7c305c28427b"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "95663aea1c22950d",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Win ?",
+        "func": "const TirageViewersList = flow.get(\"TirageViewersList\");\nconst TirageType = flow.get(\"TirageType\")||\"Normal\";\nconst TirageWin = flow.get(\"TirageWin\")||[];\nconst BanList = flow.get(\"BanList\")||[];\nmsg.topic = \"retry\";\n\nif(TirageType == \"Normal\"){\n    if (TirageViewersList.includes(msg.payload) && !TirageWin.includes(msg.payload) && !BanList.includes(msg.payload)){\n        return [msg,null];   \n    }\n    else{\n        return [null, msg];\n    } \n}\nif(TirageType == \"Mega\"){\n    if (TirageViewersList.includes(msg.payload) && !BanList.includes(msg.payload)){\n        return [msg,null];   \n    }\n    else{\n        return [null, msg];\n    } \n}\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 270,
+        "wires": [
+            [
+                "d2b426d5eac35fb1"
+            ],
+            [
+                "9821bbf4765d683b"
+            ]
+        ]
+    },
+    {
+        "id": "d2b426d5eac35fb1",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Win Message",
+        "func": "let TirageWin = flow.get(\"TirageWin\")||[];\nTirageWin.push(msg.payload);\nflow.set(\"TirageWin\", TirageWin);\n\nmsg = {\n    payload : {\n        channel: flow.get(\"TirageBroadcasterUsername\"),\n        message : \"Félicitations @\" + msg.payload + \" tu as gagné !\"\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 270,
+        "wires": [
+            [
+                "61e775389fec704d"
+            ]
+        ]
+    },
+    {
+        "id": "61e775389fec704d",
+        "type": "tmi-command-action",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "config": "",
+        "name": "",
+        "x": 1110,
+        "y": 170,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "043e8fbe14e0e5f0",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Help",
+        "func": "msg.payload.message = \"Les commandes du tirage au sort sont : \\\n[!start],[!stop],[!tirage],[!groslot], [!reset] et [!join] pour les viewers\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 70,
+        "wires": [
+            [
+                "61e775389fec704d"
+            ]
+        ]
+    },
+    {
+        "id": "df3a7c305c28427b",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Tirage type (!draw or !megadraw)",
+        "func": "if(msg.payload.message == \"!draw\"){\n    flow.set(\"TirageType\", \"Normal\");\n}\nelse if(msg.payload.message == \"!megadraw\"){\n    flow.set(\"TirageType\", \"Mega\");\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 270,
+        "wires": [
+            [
+                "9821bbf4765d683b"
+            ]
+        ]
+    },
+    {
+        "id": "5ed281d34ab8d8c2",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Reset Winner list",
+        "func": "flow.set(\"TirageWin\", []);\nmsg.payload.message = \"La liste des vainqueur.euses à bien été remise à zéro\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 110,
+        "wires": [
+            [
+                "61e775389fec704d"
+            ]
+        ]
+    },
+    {
+        "id": "5af26c7ca081c4a2",
+        "type": "function",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "Ban List",
+        "func": "flow.set(\"BanList\", [\n    \"USERNAME1\",\n    \"USERNAME2\"\n    ]);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "871e2ec0b82397b9",
+        "type": "inject",
+        "z": "5d52093f8ce15f03",
+        "g": "86c73f975d6fb73e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 105,
+        "y": 280,
+        "wires": [
+            [
+                "5af26c7ca081c4a2"
+            ]
+        ],
+        "l": false
+    }
+]
